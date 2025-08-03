@@ -1,0 +1,12 @@
+{
+  "name": "my-github-action-job",
+  "tasks": [
+    {
+      "task_key": "simple_task",
+      "notebook_task": {
+        "notebook_path": "/Workspace/Users/aditya.pradana@databricks.com/my-demo-notebooks/02-data-engineering/github-action-jobs/gh-job-simple-task.ipynb",
+        "source": "WORKSPACE"
+      }
+    }
+  ]
+}

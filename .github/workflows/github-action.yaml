@@ -15,7 +15,7 @@ jobs:
       - name: Set up Databricks CLI
         uses: databricks/setup-cli@main
 
-      - name: Deploy Databricks Job
+      - name: Deploy Notebook
         env:
           DATABRICKS_HOST: ${{ secrets.DATABRICKS_HOST }}
           DATABRICKS_TOKEN: ${{ secrets.DATABRICKS_TOKEN }}
@@ -25,3 +25,31 @@ jobs:
           TARGET_FOLDER="/Workspace/Users/aditya.pradana@databricks.com/my-demo-notebooks/02-data-engineering/github-action-jobs"
           NOTEBOOK_FILE="gh-job-simple-task.ipynb"
           databricks workspace import $TARGET_FOLDER/$NOTEBOOK_FILE --file $NOTEBOOK_FILE --format JUPYTER
+      
+      - name: Deploy Jobs
+        env:
+          DATABRICKS_HOST: ${{ secrets.DATABRICKS_HOST }}
+          DATABRICKS_TOKEN: ${{ secrets.DATABRICKS_TOKEN }}
+          # Uncomment if your workspace host is required
+          # DATABRICKS_HOST: ${{ secrets.DATABRICKS_HOST }}
+        run: |
+          JOB_NAME="my-github-action-job"
+          JOB_JSON="jobs-definition.json"
+
+          # 1. List all jobs in JSON format
+          jobs_json=$(databricks jobs list --name $JOB_NAME --output json)
+
+          # 2. Find if a job with the desired name exists, extract its job_id (using jq)
+          job_id=$(echo "$jobs_json" | jq -r '.[0].job_id')
+
+
+          if [[ -n "$job_id" && "$job_id" != "null" ]]; then
+            echo "Job already exists (ID: $job_id), updating..."
+            # 3. Update the existing job
+          #   databricks jobs update --job-id "$job_id" --json @"$JOB_JSON"
+              echo DO NOTHING
+          else
+            echo "Job does not exist, creating..."
+            # 4. Create new job
+            databricks jobs create --json @"$JOB_JSON"
+          fi
