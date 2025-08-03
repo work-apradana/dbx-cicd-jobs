@@ -1,0 +1,27 @@
+name: Deploy Databricks Job
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up Databricks CLI
+        uses: databricks/setup-cli@main
+
+      - name: Deploy Databricks Job
+        env:
+          DATABRICKS_HOST: ${{ secrets.DATABRICKS_HOST }}
+          DATABRICKS_TOKEN: ${{ secrets.DATABRICKS_TOKEN }}
+          # Uncomment if your workspace host is required
+          # DATABRICKS_HOST: ${{ secrets.DATABRICKS_HOST }}
+        run: |
+          TARGET_FOLDER="/Workspace/Users/aditya.pradana@databricks.com/my-demo-notebooks/02-data-engineering/github-action-jobs"
+          NOTEBOOK_FILE="gh-job-simple-task.ipynb"
+          databricks workspace import $NOTEBOOK_FILE $TARGET_FOLDER/$NOTEBOOK_FILE
