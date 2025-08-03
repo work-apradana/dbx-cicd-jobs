@@ -47,9 +47,9 @@ jobs:
           job_id=$(echo "$jobs_json" | jq -r '.[0].job_id')
 
           if [[ -n "$job_id" && "$job_id" != "null" ]]; then
-            echo "Job already exists (ID: $job_id), updating..."
+            echo "Job already exists (ID: $job_id), do nothing..."
             # 3. Update the existing job
-            databricks jobs update "$job_id" --json @"$JOB_JSON"
+            # databricks jobs update "$job_id" --json @"$JOB_JSON"
           else
             echo "Job does not exist, creating..."
             # 4. Create new job
