@@ -46,11 +46,10 @@ jobs:
           # 2. Find if a job with the desired name exists, extract its job_id (using jq)
           job_id=$(echo "$jobs_json" | jq -r '.[0].job_id')
 
-
           if [[ -n "$job_id" && "$job_id" != "null" ]]; then
             echo "Job already exists (ID: $job_id), updating..."
             # 3. Update the existing job
-            databricks jobs update --job-id "$job_id" --json @"$JOB_JSON"
+            databricks jobs update "$job_id" --json @"$JOB_JSON"
           else
             echo "Job does not exist, creating..."
             # 4. Create new job
@@ -67,4 +66,4 @@ jobs:
           JOB_NAME="my-github-action-job"
           JOB_JSON="jobs-definition.json"
 
-          databricks jobs run-now --job-id $job_id
+          databricks jobs run-now $job_id
