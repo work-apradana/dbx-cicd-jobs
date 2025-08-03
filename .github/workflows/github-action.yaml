@@ -50,10 +50,21 @@ jobs:
           if [[ -n "$job_id" && "$job_id" != "null" ]]; then
             echo "Job already exists (ID: $job_id), updating..."
             # 3. Update the existing job
-          #   databricks jobs update --job-id "$job_id" --json @"$JOB_JSON"
-              echo DO NOTHING
+            databricks jobs update --job-id "$job_id" --json @"$JOB_JSON"
           else
             echo "Job does not exist, creating..."
             # 4. Create new job
             databricks jobs create --json @"$JOB_JSON"
           fi
+      
+      - name: Run Jobs
+        env:
+          DATABRICKS_HOST: ${{ secrets.DATABRICKS_HOST }}
+          DATABRICKS_TOKEN: ${{ secrets.DATABRICKS_TOKEN }}
+          # Uncomment if your workspace host is required
+          # DATABRICKS_HOST: ${{ secrets.DATABRICKS_HOST }}
+        run: |
+          JOB_NAME="my-github-action-job"
+          JOB_JSON="jobs-definition.json"
+
+          databricks jobs run-now --job-id $job_id
