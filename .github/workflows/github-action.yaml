@@ -69,4 +69,4 @@ jobs:
           jobs_json=$(databricks jobs list --name $JOB_NAME --output json)
           job_id=$(echo "$jobs_json" | jq -r '.[0].job_id')
 
-          databricks jobs run-now $job_id
+          databricks jobs run-now $job_id --no-wait
