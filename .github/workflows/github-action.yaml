@@ -24,7 +24,11 @@ jobs:
         run: |
           TARGET_FOLDER="/Workspace/Users/aditya.pradana@databricks.com/my-demo-notebooks/02-data-engineering/github-action-jobs"
           NOTEBOOK_FILE="gh-job-simple-task.ipynb"
-          databricks workspace import $TARGET_FOLDER/$NOTEBOOK_FILE --file $NOTEBOOK_FILE --format JUPYTER
+          databricks workspace import \
+          $TARGET_FOLDER/$NOTEBOOK_FILE \
+          --file $NOTEBOOK_FILE \
+          --format JUPYTER \
+          --overwrite
       
       - name: Deploy Jobs
         env:
