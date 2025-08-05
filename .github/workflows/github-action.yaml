@@ -19,7 +19,7 @@ jobs:
         env:
           DATABRICKS_AUTH_TYPE: github-oidc
           DATABRICKS_HOST: ${{ secrets.DATABRICKS_HOST }}
-          DATABRICKS_CLIENT_ID: ${{ var.DATABRICKS_CLIENT_ID }}
+          DATABRICKS_CLIENT_ID: ${{ vars.DATABRICKS_CLIENT_ID }}
           # Uncomment if your workspace host is required
           # DATABRICKS_HOST: ${{ secrets.DATABRICKS_HOST }}
         run: |
