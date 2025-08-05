@@ -1,9 +1,10 @@
 name: Deploy Databricks Job
 run-name: ${{ github.actor }} is testing out GitHub Actions 🚀
-on:
-  push:
-    branches:
-      - main
+on: workflow_dispatch
+# on:
+#   push:
+#     branches:
+#       - main
 
 permissions:
   id-token: write
